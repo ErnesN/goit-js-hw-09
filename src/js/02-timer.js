@@ -2,8 +2,8 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
-let chosenTime = 0;
-let isAvaibleDate = 0;
+let chooseTime = 0;
+let isAvailableDate = 0;
 
 const options = {
   enableTime: true,
@@ -12,9 +12,9 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
-    chosenTime = selectedDates[0].getTime();
-    isAvaibleDate = chosenTime - Date.now();
-    if (isAvaibleDate <= 0) {
+    chooseTime = selectedDates[0].getTime();
+    isAvailableDate = chooseTime - Date.now();
+    if (isAvailableDate <= 0) {
       Notiflix.Report.failure(
         'You cannot select a past date',
         'Please choose a date in the future',
@@ -51,7 +51,7 @@ const timer = {
     this.isActive = true;
     const currentDate = Date.now();
 
-    let counting = chosenTime - currentDate;
+    let counting = chooseTime - currentDate;
 
     this.intervalID = setInterval(() => {
       counting = counting -= 1000;
@@ -81,13 +81,9 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = addLeadingZero(Math.floor(ms / day));
-  // Remaining hours
   const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  // Remaining minutes
   const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-  // Remaining seconds
   const seconds = addLeadingZero(
     Math.floor((((ms % day) % hour) % minute) / second)
   );
